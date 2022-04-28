@@ -50,7 +50,7 @@ def extract_feat(wav_path, samplerate=16000, cmn=True):
     if cmn:
         logfbankFeat -= logfbankFeat.mean(axis=0, keepdims=True)
     return logfbankFeat.astype('float32')
-    
+
 
 class SVExtractor():
     def __init__(self, mdl_kwargs, model_path, device):
@@ -70,7 +70,7 @@ class SVExtractor():
             embd = self.model(feat)
         embd = embd.squeeze(0).cpu().numpy()
         return embd
-    
+
 
 def from_wav(wav, noise_thres=0.5, device="cpu"):
     """
@@ -78,7 +78,7 @@ def from_wav(wav, noise_thres=0.5, device="cpu"):
         wav:             string; wave file for bird activity detection
         noise_thres:     float; noise threshold [default=0.5]
         device:          string; device for calculation [default="cpu"] [options: ['cpu','cuda:0']]
-        
+
     return:
         hasBird:         0 or 1 representing the presence of bird
         logits:      confidence for the result
@@ -88,14 +88,14 @@ def from_wav(wav, noise_thres=0.5, device="cpu"):
     logits = softmax(detector(wav_feats)).tolist()
     hasBird = (logits[1] >= noise_thres)
     return hasBird, logits[1]
-    
+
 def from_wavs(wavs, noise_thres=0.5, device="cpu"):
     """
     params:
         wav:             wave file for bird activity detection
         noise_thres:     noise threshold [default=0.5]
         device:          device for calculation [default="cpu"] [options: ['cpu','cuda:0']]
-    
+
     return:
         results:         List(Tuples(utt_name, hasBird, logits))
     """
