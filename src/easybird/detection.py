@@ -1,7 +1,6 @@
 import os
 import soxr
 import torch
-import argparse
 import audiofile as af
 
 from tqdm import tqdm
